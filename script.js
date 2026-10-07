@@ -1,10 +1,3 @@
-/* =====================================================
-   Digital Student Portfolio Hub  (WD-T1-076)
-   HTML + Tailwind CSS + JavaScript, no backend.
-   ALL content lives in the `portfolio` object below —
-   edit it and the whole page updates automatically.
-   ===================================================== */
-
 const portfolio = {
     student: {
         name: "Yash",
@@ -19,7 +12,7 @@ const portfolio = {
             category: "Web App",
             tech: ["React", "Vite", "Tailwind", "Supabase"],
             description: "Digital letter-sharing platform with an animated envelope opening and a cinematic reading experience.",
-            link: "#",      // TODO: add live/GitHub link
+            link: "https://lunareth-letters.vercel.app/",   
             year: 2026
         },
         {
@@ -27,7 +20,7 @@ const portfolio = {
             category: "Education",
             tech: ["HTML", "Tailwind", "JavaScript"],
             description: "Computer-literacy course website designed for middle-school students.",
-            link: "#",
+            link: "https://dark-ff.github.io/TechSiksha/",
             year: 2026
         },
         {
@@ -35,7 +28,7 @@ const portfolio = {
             category: "Event",
             tech: ["HTML", "Tailwind", "JavaScript"],
             description: "Event page for an Agentic AI Chatbot hackathon organised at college.",
-            link: "#",
+            link: "https://lunarc-2-0.vercel.app/",
             year: 2026
         },
         {
@@ -49,7 +42,6 @@ const portfolio = {
     ],
 
     certifications: [
-        // TODO: replace with your real certificates
         { title: "Web Fundamentals & Basic Frontend Design", issuer: "SBJITMR (MDM Course)", date: "2026", icon: "🌐", link: "#" },
         { title: "Certificate Name 2", issuer: "Issuing Organisation", date: "2026", icon: "📜", link: "#" },
         { title: "Certificate Name 3", issuer: "Issuing Organisation", date: "2025", icon: "🏅", link: "#" }
@@ -68,7 +60,6 @@ const portfolio = {
     ]
 };
 
-/* ---------- helpers ---------- */
 const $ = (id) => document.getElementById(id);
 const escapeHTML = (s) => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 
@@ -82,7 +73,6 @@ let activeTab = "projects";
 let projectSearch = "";
 let projectTech = "All";
 
-/* ---------- header ---------- */
 function renderHeader() {
     const s = portfolio.student;
     $("studentName").textContent = s.name;
@@ -95,7 +85,7 @@ function renderHeader() {
     $("footerText").textContent = `© ${new Date().getFullYear()} ${s.name} (${s.usn}) · Web Fundamentals & Basic Frontend Design · TAE-1`;
 }
 
-/* ---------- tabs ---------- */
+
 function renderTabButtons() {
     $("tabList").innerHTML = tabs.map(t => `
         <button role="tab" id="tab-${t.id}" data-tab="${t.id}"
@@ -121,7 +111,6 @@ function switchTab(id) {
     tabs.find(t => t.id === id).render();
 }
 
-/* ---------- PROJECTS tab (search + filter) ---------- */
 function renderProjects() {
     const allTech = ["All", ...new Set(portfolio.projects.flatMap(p => p.tech))];
 
@@ -182,7 +171,6 @@ function drawProjectCards() {
         : `<p class="col-span-full text-center text-gray-500 py-10">No projects match your search.</p>`;
 }
 
-/* ---------- CERTIFICATIONS tab ---------- */
 function renderCerts() {
     $("tabPanel").innerHTML = `
         <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -198,7 +186,6 @@ function renderCerts() {
         </div>`;
 }
 
-/* ---------- SKILLS tab (grouped progress bars) ---------- */
 function renderSkills() {
     const groups = {};
     portfolio.skills.forEach(s => (groups[s.group] ||= []).push(s));
@@ -220,24 +207,20 @@ function renderSkills() {
                 </div>`).join("")}
         </div>`;
 
-    // animate bars after paint
     requestAnimationFrame(() => requestAnimationFrame(() => {
         document.querySelectorAll(".bar-fill").forEach(b => b.style.width = b.dataset.width + "%");
     }));
 }
 
-/* ---------- dark mode ---------- */
 function applyTheme(dark) {
     document.documentElement.classList.toggle("dark", dark);
     $("themeToggle").textContent = dark ? "☀️ Light" : "🌙 Dark";
     try { localStorage.setItem("portfolioDark", dark ? "1" : "0"); } catch (e) {}
 }
 
-/* ---------- init ---------- */
 document.addEventListener("DOMContentLoaded", () => {
     renderHeader();
 
-    // click + keyboard (arrow keys) on tabs
     $("tabList").addEventListener("click", (e) => {
         const b = e.target.closest("button[data-tab]");
         if (b) switchTab(b.dataset.tab);
